@@ -1,37 +1,91 @@
-.category-filter {
+.category-carousel {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 32px;
+  align-items: flex-start;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 4px 4px 16px;
+  margin-bottom: 24px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
-.category-pill {
+.category-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+.category-carousel::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+.category-carousel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.category-tile {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  scroll-snap-align: start;
+  min-width: 72px;
+}
+
+.category-tile-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-border);
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-ink-soft);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 8px 18px;
-  border-radius: 30px;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
-.category-pill:hover {
+.category-tile:hover .category-tile-image {
   border-color: var(--color-olive);
+  transform: translateY(-2px);
+}
+
+.category-tile.active .category-tile-image {
+  border-color: var(--color-olive);
+  box-shadow: 0 0 0 3px rgba(128, 128, 0, 0.2);
+}
+
+.category-tile-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 88px;
+  transition: color 0.15s ease;
+}
+
+.category-tile:hover .category-tile-name {
   color: var(--color-ink);
 }
 
-.category-pill.active {
-  background: var(--color-olive);
-  border-color: var(--color-olive);
-  color: #fff;
+.category-tile.active .category-tile-name {
+  color: var(--color-ink);
+  font-weight: 600;
 }
 
-.category-pill-image {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 8px;
-  vertical-align: middle;
+.category-tile-fallback {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-olive);
+  text-transform: uppercase;
+}
+
+.category-tile-all {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-ink-soft);
 }
