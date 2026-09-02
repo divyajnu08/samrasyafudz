@@ -2,7 +2,7 @@ package in.samrasyafudz.userservice.controller;
 
 import in.samrasyafudz.userservice.dto.AddressRequest;
 import in.samrasyafudz.userservice.dto.AddressResponse;
-import in.samrasyafudz.userservice.security.AuthenticatedUser;
+import in.samrasyafudz.commonsecurity.AuthenticatedUser;
 import in.samrasyafudz.userservice.service.AddressService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

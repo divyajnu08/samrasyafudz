@@ -1,14 +1,14 @@
 spring.cloud.gateway.routes[0].id=user-service
 spring.cloud.gateway.routes[0].uri=http://localhost:8081
-spring.cloud.gateway.routes[0].predicates[0]=Path=/api/auth/**,/api/users/**
+spring.cloud.gateway.routes[0].predicates[0]=Path=/api/auth/**,/api/users/**,/api/admin/users/**
 
 spring.cloud.gateway.routes[1].id=product-service
 spring.cloud.gateway.routes[1].uri=http://localhost:8082
-spring.cloud.gateway.routes[1].predicates[0]=Path=/api/products/**,/api/categories/**
+spring.cloud.gateway.routes[1].predicates[0]=Path=/api/products/**,/api/categories/**,/api/admin/products/**,/api/admin/categories/**
 
 spring.cloud.gateway.routes[2].id=order-service
 spring.cloud.gateway.routes[2].uri=http://localhost:8083
-spring.cloud.gateway.routes[2].predicates[0]=Path=/api/orders/**,/api/cart/**
+spring.cloud.gateway.routes[2].predicates[0]=Path=/api/orders/**,/api/cart/**,/api/admin/orders/**
 
 spring.cloud.gateway.routes[3].id=payment-service
 spring.cloud.gateway.routes[3].uri=http://localhost:8084

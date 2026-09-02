@@ -4,7 +4,7 @@ import in.samrasyafudz.userservice.dto.AuthResponse;
 import in.samrasyafudz.userservice.entity.Role;
 import in.samrasyafudz.userservice.entity.User;
 import in.samrasyafudz.userservice.repository.UserRepository;
-import in.samrasyafudz.userservice.security.JwtService;
+import in.samrasyafudz.commonsecurity.JwtService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

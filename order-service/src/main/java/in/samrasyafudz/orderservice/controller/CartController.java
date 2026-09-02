@@ -3,7 +3,7 @@ package in.samrasyafudz.orderservice.controller;
 import in.samrasyafudz.orderservice.dto.AddToCartRequest;
 import in.samrasyafudz.orderservice.dto.CartResponse;
 import in.samrasyafudz.orderservice.dto.UpdateCartItemRequest;
-import in.samrasyafudz.orderservice.security.AuthenticatedUser;
+import in.samrasyafudz.commonsecurity.AuthenticatedUser;
 import in.samrasyafudz.orderservice.service.CartService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

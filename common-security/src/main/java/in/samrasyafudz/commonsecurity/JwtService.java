@@ -1,23 +1,22 @@
-package in.samrasyafudz.userservice.security;
+package in.samrasyafudz.commonsecurity;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
-@Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final String secret;
+    private final long expirationMs;
 
-    @Value("${jwt.expiration-ms}")
-    private long expirationMs;
+    public JwtService(String secret, long expirationMs) {
+        this.secret = secret;
+        this.expirationMs = expirationMs;
+    }
 
     private SecretKey key() {
         return Keys.hmacShaKeyFor(secret.getBytes());
