@@ -13,7 +13,7 @@ export default function CartPage() {
   }, [refreshCart]);
 
   async function handleQuantityChange( productId:number, variantId:number , quantity: number) {
-    if (quantity < 1) return;
+    if (quantity < 0) return;
     setError(null);
     try {
       await updateQuantity(productId,variantId, quantity);
@@ -34,7 +34,7 @@ export default function CartPage() {
   if (loading) {
     return <div className="container"><p className="home-status">Loading your cart…</p></div>;
   }
-
+  console.log(cart);
   if (!cart || cart.items.length === 0) {
     return (
       <div className="container cart-page">
@@ -53,18 +53,19 @@ export default function CartPage() {
 
       <div className="cart-items">
         {cart.items.map((item) => (
-          <div key={item.id} className="cart-item">
-            <div className="cart-item-info">
-              <h3>{item.productName}</h3>
-              <span className="cart-item-weight">{item.weightGrams}g</span>
-              <span className="cart-item-price">₹{item.unitPrice.toFixed(0)} each</span>
+          item.quantity > 0 && (
+            <div key={item.id} className="cart-item">
+              <div className="cart-item-info">
+                <h3>{item.productName}</h3>
+                <span className="cart-item-weight">{item.weightGrams}g</span>
+                <span className="cart-item-price">₹{item.unitPrice.toFixed(0)} each</span>
             </div>
 
             <div className="cart-item-quantity">
               <button
                 className="cart-qty-btn"
                 onClick={() => handleQuantityChange(item.productId, item.variantId, item.quantity - 1)}
-                disabled={item.quantity <= 1}
+                disabled={item.quantity <= 0}
               >
                 −
               </button>
@@ -83,6 +84,7 @@ export default function CartPage() {
               Remove
             </button>
           </div>
+          )
         ))}
       </div>
 
@@ -91,9 +93,11 @@ export default function CartPage() {
           <span>Total</span>
           <span>₹{cart.total.toFixed(0)}</span>
         </div>
-        <button className="btn-primary cart-checkout-btn" onClick={() => navigate("/checkout")}>
-          Proceed to checkout
-        </button>
+        {cart.items.some(item => item.quantity > 0) && (
+          <button className="btn-primary cart-checkout-btn" onClick={() => navigate("/checkout")}>
+            Proceed to checkout
+          </button>
+        )}
       </div>
     </div>
   );

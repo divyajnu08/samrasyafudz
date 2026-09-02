@@ -26,7 +26,7 @@ public class CartService {
 
     @Transactional(readOnly = true)
     public CartResponse getCart(Long userId) {
-        var responses = cartItemRepository.findByUserId(userId).stream()
+        var responses = cartItemRepository.findByUserIdOrderByIdAsc(userId).stream()
                 .map(this::toResponse)
                 .toList();
         return new CartResponse(responses);
@@ -63,10 +63,14 @@ public class CartService {
 
     @Transactional
     public CartResponse updateQuantity(Long userId, Long productId, Long variantId, Integer quantity) {
-        List<CartItem> items = cartItemRepository.findByUserId(userId);
+        List<CartItem> items = cartItemRepository.findByUserIdOrderByIdAsc(userId);
         if (items != null) {
             for (CartItem item : items) {
                 if (item.getProductId().equals(productId) && item.getVariantId().equals(variantId)) {
+                    if (quantity <= 0) {
+                        cartItemRepository.delete(item);
+                        continue;
+                    }
                     item.setQuantity(quantity);
                     cartItemRepository.save(item);
                 }
@@ -77,7 +81,7 @@ public class CartService {
 
     @Transactional
     public CartResponse removeItem(Long userId, Long productId, Long variantId) {
-        List<CartItem> items = cartItemRepository.findByUserId(userId);
+        List<CartItem> items = cartItemRepository.findByUserIdOrderByIdAsc(userId);
         if (items != null) {
             for (CartItem item : items) {
                 if (item.getProductId().equals(productId) && item.getVariantId().equals(variantId)) {

@@ -36,7 +36,7 @@ public class OrderService {
     public OrderResponse checkout(Long userId, CheckoutRequest request, String authHeader) {
         userServiceClient.getAddress(request.getAddressId(), authHeader);
 
-        List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
+        List<CartItem> cartItems = cartItemRepository.findByUserIdOrderByIdAsc(userId);
         if (cartItems.isEmpty()) {
             throw new EmptyCartException();
         }
