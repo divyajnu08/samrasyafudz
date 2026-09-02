@@ -2,7 +2,7 @@ package in.samrasyafudz.userservice.controller;
 
 import in.samrasyafudz.userservice.dto.UpdateProfileRequest;
 import in.samrasyafudz.userservice.dto.UserProfileResponse;
-import in.samrasyafudz.userservice.security.AuthenticatedUser;
+import in.samrasyafudz.commonsecurity.AuthenticatedUser;
 import in.samrasyafudz.userservice.service.UserProfileService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

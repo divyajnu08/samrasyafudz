@@ -2,7 +2,7 @@ package in.samrasyafudz.orderservice.controller;
 
 import in.samrasyafudz.orderservice.dto.CheckoutRequest;
 import in.samrasyafudz.orderservice.dto.OrderResponse;
-import in.samrasyafudz.orderservice.security.AuthenticatedUser;
+import in.samrasyafudz.commonsecurity.AuthenticatedUser;
 import in.samrasyafudz.orderservice.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
