@@ -17,17 +17,18 @@ learning Spring Boot microservices and JWT authentication.
                         ┌──────────▼────────────┐
                         │     api-gateway        │  Spring Cloud Gateway
                         └──────────┬────────────┘
-                    ┌──────────────┼──────────────┐
-                    │              │              │
-             ┌──────▼─────┐ ┌──────▼──────┐┌──────▼──────┐
-             │user-service│ │product-serv.││order-service│
-             │  (auth)    │ │  (catalog)  ││(cart/orders)│
-             └──────┬─────┘ └──────┬──────┘└──────┬──────┘
-                    │              │              │
-               ┌────▼────┐   ┌─────▼────┐   ┌─────▼────┐
-               │ usersdb │   │productdb │   │ ordersdb │
-               └─────────┘   └──────────┘   └──────────┘
-                        (each service owns its own PostgreSQL database)
+                    ┌──────────┬───┴────┬──────────┐
+                    │          │        │          │
+             ┌──────▼─────┐ ┌──▼───────┐┌──────▼──────┐┌─────────────┐
+             │user-service│ │product-s.││order-service││payment-svc *│
+             │  (auth)    │ │(catalog) ││(cart/orders)││(Razorpay)   │
+             └──────┬─────┘ └──┬───────┘└──────┬──────┘└──────┬──────┘
+                    │          │        │          │          │
+               ┌────▼────┐ ┌───▼───┐ ┌──▼─────┐ ┌─▼────────┐
+               │ usersdb │ │prodDB │ │ordersdb│ │paymentsdb│
+               └─────────┘ └───────┘ └────────┘ └──────────┘
+                    (each service owns its own PostgreSQL database)
+                        * payment-service is currently on hold
 ```
 
 Each microservice is independently deployable, owns its own database, and validates
