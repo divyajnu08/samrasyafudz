@@ -1,7 +1,7 @@
 # Samrasya FUDZ
 
 A full-stack dry fruits & nuts e-commerce platform, built as a reference project for
-learning Spring Boot microservices, JWT authentication, and payment integration.
+learning Spring Boot microservices and JWT authentication.
 
 **Live site:** [www.samrasyafudz.in](https://www.samrasyafudz.in)
 
@@ -17,17 +17,18 @@ learning Spring Boot microservices, JWT authentication, and payment integration.
                         ┌──────────▼────────────┐
                         │     api-gateway        │  Spring Cloud Gateway
                         └──────────┬────────────┘
-                    ┌──────────────┼──────────────┬─────────────────┐
-                    │              │              │                 │
-             ┌──────▼─────┐ ┌──────▼──────┐┌──────▼──────┐  ┌───────▼───────┐
-             │user-service│ │product-serv.││order-service│  │payment-service│
-             │  (auth)    │ │  (catalog)  ││(cart/orders)│  │  (Razorpay)   │
-             └──────┬─────┘ └──────┬──────┘└──────┬──────┘  └───────┬───────┘
-                    │              │              │                 │
-               ┌────▼────┐   ┌─────▼────┐   ┌─────▼────┐    ┌───────▼────┐
-               │ usersdb │   │productdb │   │ ordersdb │    │ paymentsdb │
-               └─────────┘   └──────────┘   └──────────┘    └────────────┘
-                        (each service owns its own PostgreSQL database)
+                    ┌──────────┬───┴────┬──────────┐
+                    │          │        │          │
+             ┌──────▼─────┐ ┌──▼───────┐┌──────▼──────┐┌─────────────┐
+             │user-service│ │product-s.││order-service││payment-svc *│
+             │  (auth)    │ │(catalog) ││(cart/orders)││(Razorpay)   │
+             └──────┬─────┘ └──┬───────┘└──────┬──────┘└──────┬──────┘
+                    │          │        │          │          │
+               ┌────▼────┐ ┌───▼───┐ ┌──▼─────┐ ┌─▼────────┐
+               │ usersdb │ │prodDB │ │ordersdb│ │paymentsdb│
+               └─────────┘ └───────┘ └────────┘ └──────────┘
+                    (each service owns its own PostgreSQL database)
+                        * payment-service is currently on hold
 ```
 
 Each microservice is independently deployable, owns its own database, and validates
@@ -41,12 +42,11 @@ happens over HTTP.
 
 **Backend**
 
-- Java 17, Spring Boot 3.2
+- Java 17, Spring Boot 3.4.0
 - Spring Cloud Gateway (routing, CORS)
 - Spring Security + JWT (mobile OTP-based auth, no passwords)
 - Spring Data JPA + PostgreSQL, one database per service
 - Flyway for schema migrations
-- Razorpay Java SDK (UPI payments)
 
 **Frontend**
 
@@ -71,7 +71,9 @@ happens over HTTP.
 | `user-service`    | 8081         | OTP login, JWT issuance, profiles, saved addresses |
 | `product-service` | 8082         | Product catalog, categories, weight-based variants |
 | `order-service`   | 8083         | Cart, checkout, order lifecycle                    |
-| `payment-service` | 8084         | Razorpay UPI payment creation & verification       |
+
+> **Note:** `payment-service` (Razorpay UPI payments) is currently **on hold** and is not
+> yet part of the codebase. It will be added in a future iteration.
 
 ---
 
@@ -96,7 +98,6 @@ Create the databases:
 psql -U postgres -c "CREATE DATABASE usersdb;"
 psql -U postgres -c "CREATE DATABASE productdb;"
 psql -U postgres -c "CREATE DATABASE ordersdb;"
-psql -U postgres -c "CREATE DATABASE paymentsdb;"
 ```
 
 Copy the example configs and fill in your own values (see [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -105,8 +106,15 @@ for the full list and important notes on the shared JWT secret):
 ```bash
 cp user-service/src/main/resources/application-local.properties.example \
    user-service/src/main/resources/application-local.properties
-# repeat for product-service, order-service, payment-service, api-gateway
-cp dryfruits-frontend/.env.example dryfruits-frontend/.env.development
+# repeat for product-service, order-service, api-gateway
+```
+
+Create the frontend env file at `samrasyafudz-frontend/.env.development` (it is gitignored,
+so there is no committed example). It needs at minimum:
+
+```bash
+VITE_API_URL=http://localhost:8080
+VITE_GOOGLE_MAPS_API_KEY=
 ```
 
 Run each service in its own terminal:
@@ -115,14 +123,13 @@ Run each service in its own terminal:
 ./gradlew :user-service:bootRun --args='--spring.profiles.active=local'
 ./gradlew :product-service:bootRun --args='--spring.profiles.active=local'
 ./gradlew :order-service:bootRun --args='--spring.profiles.active=local'
-./gradlew :payment-service:bootRun --args='--spring.profiles.active=local'
 ./gradlew :api-gateway:bootRun --args='--spring.profiles.active=local'
 ```
 
 Run the frontend:
 
 ```bash
-cd dryfruits-frontend
+cd samrasyafudz-frontend
 npm install
 npm run dev
 ```

@@ -41,7 +41,11 @@ cp order-service/src/main/resources/application-local.properties.example \
 cp api-gateway/src/main/resources/application-local.properties.example \
    api-gateway/src/main/resources/application-local.properties
 
-cp samrasyafudz-frontend/.env.example dryfruits-frontend/.env.development
+Create `samrasyafudz-frontend/.env.development` (gitignored, no committed example) with:
+
+```bash
+VITE_API_URL=http://localhost:8080
+VITE_GOOGLE_MAPS_API_KEY=
 ```
 
 **Important:** the `jwt.secret` value must be **identical, character-for-character**, across
@@ -72,12 +76,12 @@ services and can start in any order; `order-service` calls `product-service`;
 
 Alternatively, if you're using IntelliJ: create a Run/Debug Configuration for each service's
 `*Application` class, set **Active profiles** to `local` in each configuration (not the
-Program Arguments field), and run all five.
+Program Arguments field), and run all four.
 
 ### 5. Run the frontend
 
 ```bash
-cd smarasyafudz-frontend
+cd samrasyafudz-frontend
 npm install
 npm run dev
 ```
@@ -100,7 +104,7 @@ chain (gateway → product-service → Postgres) is working.
 
 - Create a branch: `feature/your-feature-name` or `fix/bug-description`
 - Follow existing code conventions (see below)
-- Test manually against a full local run (all five services + frontend) before opening a PR — this project doesn't yet
+- Test manually against a full local run (all four services + frontend) before opening a PR — this project doesn't yet
   have automated integration tests, so manual verification matters
 
 ## Code conventions
