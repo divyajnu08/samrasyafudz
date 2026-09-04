@@ -1,0 +1,9 @@
+# Exclude build artifacts and caches from the Docker build context
+**/build/
+**/.gradle/
+**/.idea/
+**/node_modules/
+**/dist/
+**/.firebase/
+.git
+*.log
