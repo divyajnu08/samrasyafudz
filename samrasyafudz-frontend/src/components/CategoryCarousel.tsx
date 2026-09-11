@@ -99,9 +99,8 @@ export default function CategoryCarousel({
             <button
               type="button"
               key={c.id ?? i}
-              className={`carousel-slide category-tile ${
-                selected === c.id ? "active" : ""
-              }`}
+              className={`carousel-slide category-tile ${selected === c.id ? "active" : ""
+                }`}
               aria-hidden={!(i >= index && i < index + itemsPerSlide)}
               onClick={() => onSelect?.(c.id)}
             >
@@ -114,10 +113,14 @@ export default function CategoryCarousel({
                   draggable={false}
                 />
               ) : (
-                <span className="category-tile-image category-tile-fallback">
-                  {c.name.charAt(0)}
+                <span
+                  className={`category-tile-image category-tile-fallback ${c.name === "All" ? "category-tile-all" : ""
+                    }`}
+                >
+                  {c.name === "All" ? "All" : c.name.charAt(0)}
                 </span>
               )}
+              <span className="category-tile-caption">{c.name}</span>
             </button>
           ))}
         </div>
@@ -153,9 +156,8 @@ export default function CategoryCarousel({
                 onClick={() => goToPage(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 aria-current={isActive}
-                className={`carousel-dot ${
-                  isActive ? "carousel-dot-active" : ""
-                }`}
+                className={`carousel-dot ${isActive ? "carousel-dot-active" : ""
+                  }`}
               />
             );
           })}

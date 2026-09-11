@@ -7,19 +7,31 @@ interface Props {
   onSelect: (id: number | null) => void;
 }
 
-export default function CategoryFilter({ categories, selected, onSelect}: Props) {
+export default function CategoryFilter({ categories, selected, onSelect }: Props) {
+  const normalizedCategories = categories.filter(
+    (category) => !(category.id === null && category.name === "All")
+  );
 
-  categories.push({
-    id:null,
-    name:"All",
-    description:"All Categories",
-    imageUrl:null,
-    active:true
-  });
+  const allCategories = [
+    {
+      id: null,
+      name: "All",
+      description: "All Categories",
+      imageUrl: null,
+      active: true,
+    },
+    ...normalizedCategories,
+  ];
 
   return (
-    <CategoryCarousel categories={categories} autoplayMs={3000} itemsPerSlide={5} onSelect={onSelect} selected={selected}/>
-  )
+    <CategoryCarousel
+      categories={allCategories}
+      autoplayMs={3000}
+      itemsPerSlide={5}
+      onSelect={onSelect}
+      selected={selected}
+    />
+  );
 }
 
 /*export default function CategoryFilter({ categories, selected, onSelect }: Props) {
@@ -55,7 +67,7 @@ export default function CategoryFilter({ categories, selected, onSelect}: Props)
               {c.name.charAt(0)}
             </span>
           )}
-          <span className="category-tile-name">{c.name}</span>
+          <span className="category-tile-caption">{c.name}</span>
         </button>
       ))}
     </div>
