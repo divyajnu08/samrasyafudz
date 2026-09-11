@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "samrasyafudz-otp-test",
+    "site": "samrasya-fudz",
     "public": "dist",
     "ignore": [
       "firebase.json",
